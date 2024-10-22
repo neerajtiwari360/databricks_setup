@@ -72,6 +72,18 @@ services:
     networks:
       - spark-network
 
+  # Flask API
+  flask-api:
+    build:
+      context: ../src/flask_api  # Flask API directory
+    container_name: flask-api
+    ports:
+      - "5000:5000"  # Expose Flask API on port 5000
+    depends_on:
+      - postgres  # Flask depends on PostgreSQL to be up
+    networks:
+      - spark-network
+
 networks:
   spark-network:
     driver: bridge
