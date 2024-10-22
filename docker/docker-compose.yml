@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+  # Spark Master
+  spark-master:
+    image: bitnami/spark:latest
+    container_name: spark-master
+    ports:
+      - "8080:8080"  # Spark Web UI
+      - "7077:7077"  # Spark Master port
+    environment:
+      - SPARK_MODE=master
+    networks:
+      - spark-network
+
+  # Spark Worker 1
+  spark-worker-1:
+    image: bitnami/spark:latest
+    container_name: spark-worker-1
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+    depends_on:
+      - spark-master
+    networks:
+      - spark-network
+
+  # Spark Worker 2
+  spark-worker-2:
+    image: bitnami/spark:latest
+    container_name: spark-worker-2
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+    depends_on:
+      - spark-master
+    networks:
+      - spark-network
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: sparkdb
+    ports:
+      - "5432:5432"  # PostgreSQL port
+    networks:
+      - spark-network
+
+  # Jupyter Notebook
+  jupyter:
+    image: jupyter/pyspark-notebook:latest
+    container_name: jupyter-notebook
+    ports:
+      - "8888:8888"  # Jupyter Notebook port
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - GRANT_SUDO=yes
+      - NB_USER=jovyan
+    command: >
+      start-notebook.sh --NotebookApp.token='' --ServerApp.allow_password_change=False
+    volumes:
+      - ./notebooks:/home/jovyan/work  # Host directory for saving notebooks
+    depends_on:
+      - spark-master
+      - postgres
+    networks:
+      - spark-network
+
+networks:
+  spark-network:
+    driver: bridge
