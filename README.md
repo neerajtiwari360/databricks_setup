@@ -88,6 +88,7 @@ You can now interact with the Spark cluster using the PySpark environment in Jup
 
 1. Open the Jupyter Notebook at `http://localhost:8888`.
 2. Create a new notebook and start coding with PySpark.
+3. !pip install psycopg2-binary sqlalchemy
    
 For example, you can use the following code in a Jupyter Notebook to interact with your PostgreSQL database:
 

@@ -61,9 +61,11 @@ services:
       - GRANT_SUDO=yes
       - NB_USER=jovyan
     command: >
-      start-notebook.sh --NotebookApp.token='' --ServerApp.allow_password_change=False
+      bash -c "pip install psycopg2-binary sqlalchemy && start-notebook.sh --NotebookApp.token='' --ServerApp.allow_password_change=False"
+    # command: >
+    #   start-notebook.sh --NotebookApp.token='' --ServerApp.allow_password_change=False
     volumes:
-      - ./notebooks:/home/jovyan/work  # Host directory for saving notebooks
+      - ../src/notebook:/home/jovyan/work  # Host directory for saving notebooks
     depends_on:
       - spark-master
       - postgres
