@@ -21,10 +21,10 @@ This setup consists of the following services:
 
 ### Docker Services Summary:
 
-- **Spark Master**: Web UI on `localhost:8080` and Spark Master listens on `localhost:7077`.
+- **Spark Master**: Web UI on `http://localhost:8080` and Spark Master listens on `http://localhost:7077`.
 - **Spark Workers**: Automatically connect to Spark Master and participate in the cluster.
-- **PostgreSQL**: Database accessible via `localhost:5432`.
-- **Jupyter Notebook**: Web interface available on `localhost:8888`.
+- **PostgreSQL**: Database accessible via `http://localhost:5432`.
+- **Jupyter Notebook**: Web interface available on `http://localhost:8888`.
 - **Flask API**: API endpoint available at `http://localhost:5000`.
 
 ## Usage

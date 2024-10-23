@@ -47,6 +47,8 @@ services:
       POSTGRES_DB: sparkdb
     ports:
       - "5432:5432"  # PostgreSQL port
+    volumes:
+          - ../src/pg_data:/var/lib/postgresql/data  # Persist PostgreSQL data locally
     networks:
       - spark-network
 
@@ -66,6 +68,7 @@ services:
     #   start-notebook.sh --NotebookApp.token='' --ServerApp.allow_password_change=False
     volumes:
       - ../src/notebook:/home/jovyan/work  # Host directory for saving notebooks
+      - ../src/data:/home/jovyan/data
     depends_on:
       - spark-master
       - postgres
